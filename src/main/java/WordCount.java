@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.StringTokenizer;
 
 import org.apache.commons.io.FileUtils;
@@ -13,7 +12,6 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.hsqldb.lib.FileUtil;
 
 public class WordCount {
 
