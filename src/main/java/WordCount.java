@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.StringTokenizer;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -12,6 +13,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.hsqldb.lib.FileUtil;
 
 public class WordCount {
 
@@ -56,8 +58,14 @@ public class WordCount {
         job.setReducerClass(IntSumReducer.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
-        String url = new File("").getAbsolutePath() + "/input";
-        FileInputFormat.addInputPath(job, new Path(url));
+
+        String url = new File("").getAbsolutePath();
+        String inputUrl = url + "/input";
+        String outputUrl = url + "/output";
+        File outputFile=new File(outputUrl);
+        if(outputFile.exists())
+            FileUtils.deleteDirectory(outputFile);
+        FileInputFormat.addInputPath(job, new Path(inputUrl));
         FileOutputFormat.setOutputPath(job, new Path("output"));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
