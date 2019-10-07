@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
+
 import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -23,9 +24,10 @@ public class WordCount {
 
         public void map(Object key, Text value, Context context
         ) throws IOException, InterruptedException {
-            StringTokenizer itr = new StringTokenizer(value.toString());
+            StringTokenizer itr = new StringTokenizer(value.toString(),"\'\n.,!?:(){}[]; -*");
             while (itr.hasMoreTokens()) {
-                word.set(itr.nextToken());
+                word.set(itr.nextToken().toLowerCase());
+                if (word.equals("")) continue;
                 context.write(word, one);
             }
         }
