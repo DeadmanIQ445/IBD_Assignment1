@@ -33,11 +33,11 @@ public class Tokenizer {
                 Text words = new Text(jsonObject.getString("text"));
 
 
-                StringTokenizer itr = new StringTokenizer(words.toString(),"\'\n.,!?:(){}[]<>/;“”‘\"#$ -+&%*");
+                StringTokenizer itr = new StringTokenizer(words.toString(), "\'\n.,!?:(){}[]<>/;“”‘\"#$ -+&%*");
                 while (itr.hasMoreTokens()) {
-                    String  word = itr.nextToken().toLowerCase();
+                    String word = itr.nextToken().toLowerCase();
                     if (word.equals("")) continue;
-                    Text wordText = new Text(jsonObject.getString("id")+"@@@"+word);
+                    Text wordText = new Text(jsonObject.getString("id") + "@@@" + word);
                     context.write(wordText, one);
                 }
 
@@ -61,7 +61,7 @@ public class Tokenizer {
             result.set(sum);
             String[] a = key.toString().split("@@@");
             Text key2 = new Text(a[1]);
-            Text value2 = new Text(a[0]+"@@@"+result);
+            Text value2 = new Text(a[0] + "@@@" + result);
             context.write(key2, value2);
         }
     }
@@ -80,8 +80,8 @@ public class Tokenizer {
         String url = new File("").getAbsolutePath();
         String inputUrl = url + "/target/classes";
         String outputUrl = url + "/outputT";
-        File outputFile=new File(outputUrl);
-        if(outputFile.exists())
+        File outputFile = new File(outputUrl);
+        if (outputFile.exists())
             FileUtils.deleteDirectory(outputFile);
         FileInputFormat.addInputPath(job, new Path(inputUrl));
         FileOutputFormat.setOutputPath(job, new Path("outputT"));
