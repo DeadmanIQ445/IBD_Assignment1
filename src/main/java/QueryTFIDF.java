@@ -71,6 +71,6 @@ public class QueryTFIDF {
         MultipleInputs.addInputPath(job, new Path("queryWC"), TextInputFormat.class, JoinMapperWC.class);
         MultipleInputs.addInputPath(job, new Path("outputIDF"),TextInputFormat.class, JoinMapperF.class);
         FileOutputFormat.setOutputPath(job, new Path("queryTFIDF"));
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
+        job.waitForCompletion(true);
     }
 }

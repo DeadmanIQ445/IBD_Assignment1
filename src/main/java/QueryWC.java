@@ -81,6 +81,6 @@ public class QueryWC{
             FileUtils.deleteDirectory(outputFile);
         FileInputFormat.addInputPath(job, new Path(inputUrl));
         FileOutputFormat.setOutputPath(job, new Path("queryWC"));
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
+        job.waitForCompletion(true);
     }
 }

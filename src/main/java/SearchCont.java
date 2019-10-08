@@ -65,6 +65,6 @@ public class SearchCont {
             FileUtils.deleteDirectory(outputFile);
         FileInputFormat.addInputPath(job, new Path(inputUrl));
         FileOutputFormat.setOutputPath(job, new Path("Result"));
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
+        job.waitForCompletion(true);
     }
 }

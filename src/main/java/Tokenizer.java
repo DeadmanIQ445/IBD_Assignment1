@@ -78,13 +78,13 @@ public class Tokenizer {
         job.setOutputValueClass(Text.class);
 
         String url = new File("").getAbsolutePath();
-        String inputUrl = url + "/target/classes";
+        String inputUrl = url + "/src/main/resources";
         String outputUrl = url + "/outputT";
         File outputFile = new File(outputUrl);
         if (outputFile.exists())
             FileUtils.deleteDirectory(outputFile);
         FileInputFormat.addInputPath(job, new Path(inputUrl));
         FileOutputFormat.setOutputPath(job, new Path("outputT"));
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
+        job.waitForCompletion(true);
     }
 }

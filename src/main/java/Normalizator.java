@@ -65,6 +65,6 @@ public class Normalizator {
 
         MultipleInputs.addInputPath(job, new Path("outputT"),TextInputFormat.class);
         FileOutputFormat.setOutputPath(job, new Path("outputJ"));
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
+        job.waitForCompletion(true);
     }
 }

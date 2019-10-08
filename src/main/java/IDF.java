@@ -78,6 +78,6 @@ public class IDF {
 
         MultipleInputs.addInputPath(job, new Path("outputTF"),TextInputFormat.class);
         FileOutputFormat.setOutputPath(job, new Path("outputIDF"));
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
+        job.waitForCompletion(true);
     }
 }

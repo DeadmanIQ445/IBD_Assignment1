@@ -64,6 +64,6 @@ public class TFIDF {
         MultipleInputs.addInputPath(job, new Path("outputT"), TextInputFormat.class);
         MultipleInputs.addInputPath(job, new Path("outputIDF"),TextInputFormat.class);
         FileOutputFormat.setOutputPath(job, new Path("outputTFIDF"));
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
+        job.waitForCompletion(true);
     }
 }

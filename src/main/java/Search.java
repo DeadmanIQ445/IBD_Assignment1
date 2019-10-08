@@ -80,6 +80,6 @@ public class Search {
         MultipleInputs.addInputPath(job, new Path("outputTFIDF"), TextInputFormat.class, JoinMapperWC.class);
         MultipleInputs.addInputPath(job, new Path("queryTFIDF"),TextInputFormat.class, JoinMapperF.class);
         FileOutputFormat.setOutputPath(job, new Path("querySearch"));
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
+        job.waitForCompletion(true);
     }
 }
