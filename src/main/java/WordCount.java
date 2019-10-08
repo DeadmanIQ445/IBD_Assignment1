@@ -75,12 +75,12 @@ public class WordCount {
 
         String url = new File("").getAbsolutePath();
         String inputUrl = url + "/target/classes";
-        String outputUrl = url + "/output";
+        String outputUrl = url + "/outputWC";
         File outputFile=new File(outputUrl);
         if(outputFile.exists())
             FileUtils.deleteDirectory(outputFile);
         FileInputFormat.addInputPath(job, new Path(inputUrl));
-        FileOutputFormat.setOutputPath(job, new Path("output"));
+        FileOutputFormat.setOutputPath(job, new Path("outputWC"));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }

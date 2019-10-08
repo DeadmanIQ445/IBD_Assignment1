@@ -48,7 +48,7 @@ public class Tokenizer {
     }
 
     public static class IntSumReducer
-            extends Reducer<Text, IntWritable, Text, IntWritable> {
+            extends Reducer<Text, IntWritable, Text, Text> {
         private IntWritable result = new IntWritable();
 
         public void reduce(Text key, Iterable<IntWritable> values,
@@ -59,7 +59,10 @@ public class Tokenizer {
                 sum += val.get();
             }
             result.set(sum);
-            context.write(key, result);
+            String[] a = key.toString().split("@@@");
+            Text key2 = new Text(a[1]);
+            Text value2 = new Text(a[0]+"@@@"+result);
+            context.write(key2, value2);
         }
     }
 
@@ -68,19 +71,20 @@ public class Tokenizer {
         Job job = Job.getInstance(conf, "word count");
         job.setJarByClass(WordCount.class);
         job.setMapperClass(TokenizerMapper.class);
-        job.setCombinerClass(IntSumReducer.class);
+//        job.setCombinerClass(IntSumReducer.class);
         job.setReducerClass(IntSumReducer.class);
+        job.setMapOutputValueClass(IntWritable.class);
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
+        job.setOutputValueClass(Text.class);
 
         String url = new File("").getAbsolutePath();
         String inputUrl = url + "/target/classes";
-        String outputUrl = url + "/output";
+        String outputUrl = url + "/outputT";
         File outputFile=new File(outputUrl);
         if(outputFile.exists())
             FileUtils.deleteDirectory(outputFile);
         FileInputFormat.addInputPath(job, new Path(inputUrl));
-        FileOutputFormat.setOutputPath(job, new Path("output"));
+        FileOutputFormat.setOutputPath(job, new Path("outputT"));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }
