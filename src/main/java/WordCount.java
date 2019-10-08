@@ -33,11 +33,11 @@ public class WordCount {
                 Text words = new Text(jsonObject.getString("text"));
 
 
-                StringTokenizer itr = new StringTokenizer(words.toString(),"\'\n.,!?:(){}[]<>/;“”‘\"#$ -+&%*");
+                StringTokenizer itr = new StringTokenizer(words.toString(), "\'\n.,!?:(){}[]<>/;“”‘\"#$ -+&%*");
                 while (itr.hasMoreTokens()) {
-                    String  word = itr.nextToken().toLowerCase();
+                    String word = itr.nextToken().toLowerCase();
                     if (word.equals("")) continue;
-                    context.write(new Text(word),one);
+                    context.write(new Text(word), one);
                 }
 
             } catch (JSONException e) {
@@ -76,8 +76,8 @@ public class WordCount {
         String url = new File("").getAbsolutePath();
         String inputUrl = url + "/target/classes";
         String outputUrl = url + "/outputWC";
-        File outputFile=new File(outputUrl);
-        if(outputFile.exists())
+        File outputFile = new File(outputUrl);
+        if (outputFile.exists())
             FileUtils.deleteDirectory(outputFile);
         FileInputFormat.addInputPath(job, new Path(inputUrl));
         FileOutputFormat.setOutputPath(job, new Path("outputWC"));
