@@ -6,13 +6,13 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import java.io.*;
 import java.util.Scanner;
 
-public class QueryHandle {
+public class ResultHandle {
     private static BufferedWriter writer;
 
     public static void writer(String input) throws IOException {
         String url = new File("").getAbsolutePath();
-        String queries = url + "/queries";
-        File file = new File(queries + "/queries.txt");
+        String queries = url + "/result";
+        File file = new File(queries + "/part-r-00000");
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         writer.write(input);
@@ -21,8 +21,8 @@ public class QueryHandle {
 
     public static String reader() throws IOException {
         String url = new File("").getAbsolutePath();
-        String queries = url + "/queries";
-        File file = new File(queries + "/queries.txt");
+        String queries = url + "/result";
+        File file = new File(queries + "/part-r-00000");
 
         Scanner scanner = new Scanner(file);
         return scanner.nextLine();
