@@ -13,7 +13,7 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 
-public class Normalizator {
+public class TFIDF {
     public static class JoinMapperWC extends Mapper<LongWritable, Text, Text, Text> {
         public void map(LongWritable k, Text value, Context context)
                 throws IOException, InterruptedException {
@@ -38,7 +38,7 @@ public class Normalizator {
                 }
             }
             if ((name!=0) && (dept!=0)) {
-                merge.set(Math.log(dept / name));
+                merge.set(name/dept);
             }
             context.write(key, new Text(a[0]+"@@@" + merge));
         }
@@ -57,14 +57,13 @@ public class Normalizator {
         String url = new File("").getAbsolutePath();
 //        String input1 = url + "/outputT";
 //        String input2 = url + "/outputWC";
-        String outputUrl = url + "/outputJ";
+        String outputUrl = url + "/outputTFIDF";
         File outputFile=new File(outputUrl);
         if(outputFile.exists())
             FileUtils.deleteDirectory(outputFile);
-        MultipleInputs.addInputPath(job, new Path("outputWC"), TextInputFormat.class);
-
-        MultipleInputs.addInputPath(job, new Path("outputT"),TextInputFormat.class);
-        FileOutputFormat.setOutputPath(job, new Path("outputJ"));
+        MultipleInputs.addInputPath(job, new Path("outputT"), TextInputFormat.class);
+        MultipleInputs.addInputPath(job, new Path("outputIDF"),TextInputFormat.class);
+        FileOutputFormat.setOutputPath(job, new Path("outputTFIDF"));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }
