@@ -16,7 +16,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-public class WordCount {
+public class QueryWC{
 
     public static class TokenizerMapper
             extends Mapper<Object, Text, Text, IntWritable> {
@@ -74,13 +74,13 @@ public class WordCount {
         job.setOutputValueClass(IntWritable.class);
 
         String url = new File("").getAbsolutePath();
-        String inputUrl = url + "/target/classes";
-        String outputUrl = url + "/outputWC";
+        String inputUrl = url + "/query";
+        String outputUrl = url + "/queryWC";
         File outputFile=new File(outputUrl);
         if(outputFile.exists())
             FileUtils.deleteDirectory(outputFile);
         FileInputFormat.addInputPath(job, new Path(inputUrl));
-        FileOutputFormat.setOutputPath(job, new Path("outputWC"));
+        FileOutputFormat.setOutputPath(job, new Path("queryWC"));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }
