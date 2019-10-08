@@ -13,6 +13,8 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 public class WordCount {
 
@@ -24,13 +26,25 @@ public class WordCount {
 
         public void map(Object key, Text value, Context context
         ) throws IOException, InterruptedException {
-            StringTokenizer itr = new StringTokenizer(value.toString(),"\'\n.,!?:(){}[]; -*");
-            while (itr.hasMoreTokens()) {
-                word.set(itr.nextToken().toLowerCase());
-                if (word.equals("")) continue;
-                context.write(word, one);
+            String valueStr = value.toString();
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(valueStr);
+                Text words = new Text(jsonObject.getString("text"));
+
+
+                StringTokenizer itr = new StringTokenizer(words.toString(),"\'\n.,!?:(){}[]<>/;“”‘\"#$ -+&%*");
+                while (itr.hasMoreTokens()) {
+                    String  word = itr.nextToken().toLowerCase();
+                    if (word.equals("")) continue;
+                    context.write(new Text(word),one);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
+
     }
 
     public static class IntSumReducer
@@ -60,7 +74,7 @@ public class WordCount {
         job.setOutputValueClass(IntWritable.class);
 
         String url = new File("").getAbsolutePath();
-        String inputUrl = url + "/input";
+        String inputUrl = url + "/target/classes";
         String outputUrl = url + "/output";
         File outputFile=new File(outputUrl);
         if(outputFile.exists())
